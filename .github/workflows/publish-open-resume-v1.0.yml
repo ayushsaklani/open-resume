@@ -1,0 +1,22 @@
+name : Publish open-resume-v1.0
+
+on:
+  push:
+    branches:
+    - main
+    paths: 
+    - .github/workflows/publish-open-resume-v1.0.yml
+  
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    
+    - name: Build Docker Image
+      run: |
+        docker login --username ayushsaklani --password ${{secrets.GHCROPENRESUME}} ghcr.io
+        docker build . --tag ghcr.io/ayushsaklani/open-resume:v1.0
+        docker push ghcr.io/ayushsaklani/open-resume:v1.0
